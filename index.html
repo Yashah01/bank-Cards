@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" data-display-mode="3d">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>CardSphere India — Discover. Compare. Choose.</title>
+  <meta name="description" content="India's premier payment-card discovery, comparison and recommendation platform. Explore RuPay UPI cards, airport lounge access criteria, zero forex travel cards, and personalized value calculations.">
+  <meta name="keywords" content="credit cards India, RuPay UPI, airport lounge access India, best cashback cards, zero forex credit cards, HDFC Infinia, Axis Atlas, SBI Cashback, ICICI Amazon Pay">
+  
+  <!-- Open Graph / Social Meta -->
+  <meta property="og:title" content="CardSphere India — Discover. Compare. Choose.">
+  <meta property="og:description" content="Explore India's payment-card ecosystem with interactive 3D cards, live comparison tables, and transparent recommendation logic.">
+  <meta property="og:type" content="website">
+
+  <!-- Core Stylesheet -->
+  <link rel="stylesheet" href="./style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2366FCF1'><path d='M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z'/></svg>">
+</head>
+<body>
+
+  <!-- Initial Brand Loading Screen -->
+  <div id="initial-loader" class="initial-loader-overlay" aria-live="polite">
+    <div class="loader-content">
+      <div class="loader-card-mesh">
+        <div class="card-outline-anim"></div>
+      </div>
+      <div class="loader-brand-title">CardSphere <span>India</span></div>
+      <p class="loader-status-text" id="loader-status-text">Initializing CardSphere...</p>
+    </div>
+  </div>
+
+  <!-- Ambient Three.js Background Canvas -->
+  <canvas id="ambient-canvas" aria-hidden="true"></canvas>
+
+  <div class="app-container">
+    
+    <!-- Navigation Header -->
+    <header class="navbar" role="banner">
+      <div class="nav-content">
+        
+        <!-- Brand Logo -->
+        <a href="#home" class="brand-link" id="brand-logo-link">
+          <div class="brand-emblem" aria-hidden="true">CS</div>
+          <div class="brand-text-wrap">
+            <span class="brand-title">CardSphere <span>India</span></span>
+            <span class="brand-tagline">Discover. Compare. Choose.</span>
+          </div>
+        </a>
+
+        <!-- Desktop Navigation Links -->
+        <nav class="nav-links-desktop" role="navigation" aria-label="Main Navigation">
+          <a href="#cards" class="nav-item-link" data-nav="cards">Explore Cards</a>
+          <a href="#compare" class="nav-item-link" data-nav="compare">Compare</a>
+          <a href="#find-my-card" class="nav-item-link" data-nav="find-my-card">Find My Card</a>
+          <a href="#calculator" class="nav-item-link" data-nav="calculator">Value Calculator</a>
+          <a href="#offers" class="nav-item-link" data-nav="offers">Offers</a>
+          <a href="#lounge" class="nav-item-link" data-nav="lounge">Lounge Access</a>
+          <a href="#learn" class="nav-item-link" data-nav="learn">Learn</a>
+        </nav>
+
+        <!-- Right Controls: Search, 2D/3D Toggle, Theme Toggle, Saved Cards -->
+        <div class="nav-actions-right">
+          
+          <!-- Global Search Input with Autocomplete -->
+          <div class="nav-search-wrapper" role="search">
+            <span class="nav-search-icon" aria-hidden="true">🔍</span>
+            <input type="text" 
+                   id="nav-global-search" 
+                   class="nav-search-input" 
+                   placeholder="Search cards, UPI, lounge..." 
+                   aria-label="Search payment cards"
+                   autocomplete="off">
+            <div id="nav-search-dropdown" class="search-dropdown" role="region" aria-label="Search Suggestions"></div>
+          </div>
+
+          <!-- Display Mode [ FLAT VIEW ] [ 3D VIEW ] Toggle -->
+          <div class="display-mode-toggle" title="Switch Display Mode" role="group" aria-label="Display Mode Switcher">
+            <button class="toggle-opt-btn" data-mode="flat" aria-pressed="false">Flat</button>
+            <button class="toggle-opt-btn active" data-mode="3d" aria-pressed="true">3D</button>
+          </div>
+
+          <!-- Theme Toggle (Dark / Light) -->
+          <button class="theme-toggle-btn" id="btn-theme-toggle" aria-label="Toggle dark and light theme" title="Toggle Light/Dark Theme">
+            <span class="theme-icon" aria-hidden="true">☀️</span>
+          </button>
+
+          <!-- Saved Cards Quick Button -->
+          <a href="#saved" class="nav-saved-btn" id="btn-nav-saved" title="Saved Cards" aria-label="View Saved Cards">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+            </svg>
+            <span class="saved-counter-badge" id="saved-counter-badge">0</span>
+          </a>
+
+          <!-- User Authentication Action -->
+          <div id="nav-auth-container" class="nav-auth-container"></div>
+
+          <!-- Mobile Hamburger Toggle -->
+          <button class="mobile-menu-btn" id="btn-mobile-menu" aria-label="Open mobile menu">
+            ☰
+          </button>
+
+        </div>
+
+      </div>
+    </header>
+
+    <!-- Mobile Navigation Drawer -->
+    <div id="mobile-nav-drawer" class="mobile-nav-drawer" aria-hidden="true">
+      <div class="mobile-drawer-top">
+        <span class="brand-title">CardSphere <span>India</span></span>
+        <button class="mobile-drawer-close" id="btn-close-mobile-nav">&times;</button>
+      </div>
+      <nav class="mobile-drawer-links">
+        <a href="#cards" class="mobile-nav-link">Explore Cards</a>
+        <a href="#compare" class="mobile-nav-link">Compare Cards</a>
+        <a href="#find-my-card" class="mobile-nav-link">Find My Card</a>
+        <a href="#calculator" class="mobile-nav-link">Value Calculator</a>
+        <a href="#offers" class="mobile-nav-link">Merchant Offers</a>
+        <a href="#lounge" class="mobile-nav-link">Lounge Directory</a>
+        <a href="#learn" class="mobile-nav-link">Fintech Guides</a>
+        <a href="#saved" class="mobile-nav-link">Saved Favorites</a>
+      </nav>
+      <div id="mobile-auth-container" class="mobile-auth-drawer-section"></div>
+    </div>
+
+    <!-- MAIN APP ROUTER VIEWPORT -->
+    <main id="app-main" role="main">
+
+      <!-- =========================================================
+           VIEW: HOME (#home)
+           ========================================================= -->
+      <div id="view-home" class="page-view">
+        
+        <!-- 1. Hero Section with Interactive 3D Card Showcase -->
+        <section class="hero-section" aria-label="Introduction">
+          <div class="hero-content">
+            <div class="hero-pill-badge">
+              <span>🇮🇳</span> INDIA'S PAYMENT-CARD ECOSYSTEM
+            </div>
+            
+            <h1 class="hero-title">
+              Find the card that <br>
+              <span class="gradient-text">fits your life.</span>
+            </h1>
+
+            <p class="hero-subtitle">
+              Explore, compare and understand credit, debit and RuPay UPI cards across Indian private banks, public sector giants, and fintech ecosystems.
+            </p>
+
+            <div class="hero-cta-row">
+              <a href="#cards" class="btn btn-primary btn-glow">
+                Explore All Cards →
+              </a>
+              <a href="#find-my-card" class="btn btn-secondary">
+                Find My Card (Quiz)
+              </a>
+              <a href="#compare" class="btn btn-outline">
+                Compare Matrix
+              </a>
+            </div>
+
+            <!-- Stats Highlight Bar -->
+            <div class="hero-stats-row">
+              <div class="hero-stat-item">
+                <span class="stat-num">15+</span>
+                <span class="stat-desc">Indian Issuers</span>
+              </div>
+              <div class="hero-stat-item">
+                <span class="stat-num">RuPay ⚡</span>
+                <span class="stat-desc">UPI Supported</span>
+              </div>
+              <div class="hero-stat-item">
+                <span class="stat-num">0% Forex</span>
+                <span class="stat-desc">Travel Options</span>
+              </div>
+              <div class="hero-stat-item">
+                <span class="stat-num">100%</span>
+                <span class="stat-desc">Free & Independent</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Hero 3D Card Canvas Stage -->
+          <div class="hero-visual-col">
+            <div class="hero-showcase-box" id="hero-3d-container">
+              <!-- Three.js 3D Card mounts here -->
+            </div>
+            <div class="hero-card-controls">
+              <button class="btn btn-outline btn-sm" id="btn-hero-card-prev">← Previous</button>
+              <button class="btn btn-outline btn-sm" id="btn-hero-card-flip">🔄 Flip Card</button>
+              <button class="btn btn-outline btn-sm" id="btn-hero-card-next">Next Card →</button>
+            </div>
+            <div class="hero-card-meta" id="hero-card-caption">
+              Drag to orbit • Hover to tilt • Click to view details
+            </div>
+          </div>
+        </section>
+
+        <!-- 2. Quick Filter Pills Bar -->
+        <section class="quick-categories-section" aria-label="Popular Categories">
+          <div class="section-container">
+            <div class="section-header-compact">
+              <span class="section-tag">QUICK DISCOVERY</span>
+              <h2 class="section-heading-sm">Popular Ways to Choose</h2>
+            </div>
+
+            <div class="quick-pills-row">
+              <button class="quick-filter-pill" data-filter="upi">⚡ RuPay on UPI</button>
+              <button class="quick-filter-pill" data-filter="cashback">💰 Cashback Cards</button>
+              <button class="quick-filter-pill" data-filter="free">🎁 Lifetime Free (₹0)</button>
+              <button class="quick-filter-pill" data-filter="lounge">✈ Airport Lounge</button>
+              <button class="quick-filter-pill" data-filter="travel">🌍 Zero / Low Forex</button>
+              <button class="quick-filter-pill" data-filter="secured">🔒 FD-Backed (Secured)</button>
+              <button class="quick-filter-pill" data-filter="super-premium">👑 Super Premium Metal</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- 3. Featured Cards Showcase -->
+        <section class="featured-cards-section" aria-label="Featured Payment Cards">
+          <div class="section-container">
+            <div class="section-header-row">
+              <div>
+                <span class="section-tag">CURATED HIGHLIGHTS</span>
+                <h2 class="section-heading">Featured Indian Payment Cards</h2>
+                <p class="section-subheading-text">Benchmark cards offering industry-leading rewards, cashback, and lounge privileges.</p>
+              </div>
+              <a href="#cards" class="btn btn-outline btn-sm">View Full Catalog →</a>
+            </div>
+
+            <div class="card-grid" id="featured-cards-grid">
+              <!-- Rendered dynamically -->
+            </div>
+          </div>
+        </section>
+
+        <!-- 4. Value Calculator Teaser Banner -->
+        <section class="teaser-calculator-section" aria-label="Value Calculator Teaser">
+          <div class="section-container">
+            <div class="teaser-card-box">
+              <div class="teaser-text">
+                <span class="banner-pill">REAL-TIME SIMULATION</span>
+                <h2>How Much Value Can You Actually Generate?</h2>
+                <p>Calculate your annual gross return in rewards, cashback, and lounge access against card annual fees and GST.</p>
+                <a href="#calculator" class="btn btn-primary btn-glow">Launch Value Calculator ⚡</a>
+              </div>
+              <div class="teaser-visual" aria-hidden="true">
+                <div class="teaser-metric-badge">
+                  <span class="t-label">Estimated Net Benefit</span>
+                  <span class="t-value">+₹38,500 / yr</span>
+                  <span class="t-sub">Based on average urban household spend</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 5. Educational Teaser Section -->
+        <section class="learn-teaser-section" aria-label="Fintech Education Teaser">
+          <div class="section-container">
+            <div class="section-header-compact">
+              <span class="section-tag">KNOWLEDGE BASE</span>
+              <h2 class="section-heading-sm">Mastering the Payment Ecosystem</h2>
+            </div>
+
+            <div class="learn-teaser-grid">
+              <a href="#learn" class="learn-teaser-card">
+                <span class="card-icon">⚡</span>
+                <h3>RuPay on UPI Guide</h3>
+                <p>How credit on UPI works, linking steps, and daily merchant QR payments.</p>
+              </a>
+              <a href="#learn" class="learn-teaser-card">
+                <span class="card-icon">✈️</span>
+                <h3>Lounge Access Spend Rules</h3>
+                <p>Why most Indian banks shifted to quarterly ₹35k–₹50k spend conditions in 2026.</p>
+              </a>
+              <a href="#learn" class="learn-teaser-card">
+                <span class="card-icon">🔒</span>
+                <h3>FD-Backed Secured Cards</h3>
+                <p>Build or repair your CIBIL credit score with 100% approval from day one.</p>
+              </a>
+              <a href="#learn" class="learn-teaser-card">
+                <span class="card-icon">🌍</span>
+                <h3>Forex Markup Savings</h3>
+                <p>Stop losing 4.13% on overseas shopping with zero forex travel cards.</p>
+              </a>
+            </div>
+          </div>
+        </section>
+
+      </div>
+
+      <!-- =========================================================
+           VIEW: CARDS DISCOVERY CATALOG (#cards)
+           ========================================================= -->
+      <div id="view-cards" class="page-view hidden">
+        <div class="discovery-layout">
+          
+          <!-- Left Filter Sidebar -->
+          <aside class="filter-sidebar" id="catalog-filter-sidebar" aria-label="Card Filters">
+            <!-- Rendered by Filters.js -->
+          </aside>
+
+          <!-- Center/Right Cards Catalog Main Content -->
+          <div class="discovery-main">
+            
+            <!-- Top Controls Bar -->
+            <div class="discovery-top-bar">
+              <div class="discovery-top-left">
+                <button class="btn btn-outline btn-sm mobile-filter-trigger" id="btn-trigger-mobile-filter">
+                  ⚙ Filter Cards
+                </button>
+                <div class="results-count-text" id="catalog-results-count">
+                  Showing <span>0</span> cards
+                </div>
+              </div>
+
+              <!-- Sorting Dropdown -->
+              <div class="sort-selector-group">
+                <label for="catalog-sort-select" class="sort-label">Sort by:</label>
+                <select id="catalog-sort-select" class="form-select">
+                  <option value="recommended">Recommended</option>
+                  <option value="popular">Popularity</option>
+                  <option value="fee_asc">Annual Fee: Low to High</option>
+                  <option value="fee_desc">Annual Fee: High to Low</option>
+                  <option value="reward_rate">Reward / Cashback Rate</option>
+                  <option value="lounge_visits">Airport Lounge Visits</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Active Filter Chips Bar -->
+            <div class="active-chips-bar" id="active-filter-chips"></div>
+
+            <!-- Cards Responsive Grid -->
+            <div class="card-grid" id="catalog-card-grid">
+              <!-- Populated by CardGrid.js -->
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+      <!-- =========================================================
+           VIEW: SIDE-BY-SIDE COMPARISON (#compare)
+           ========================================================= -->
+      <div id="view-compare" class="page-view hidden">
+        <div id="comparison-view-container">
+          <!-- Rendered by Comparison.js -->
+        </div>
+      </div>
+
+      <!-- =========================================================
+           VIEW: FIND MY CARD WIZARD (#find-my-card)
+           ========================================================= -->
+      <div id="view-find-my-card" class="page-view hidden">
+        <div id="wizard-view-container">
+          <!-- Rendered by RecommendationWizard.js -->
+        </div>
+      </div>
+
+      <!-- =========================================================
+           VIEW: VALUE CALCULATOR (#calculator)
+           ========================================================= -->
+      <div id="view-calculator" class="page-view hidden">
+        <div id="calculator-view-container">
+          <!-- Rendered by ValueCalculator.js -->
+        </div>
+      </div>
+
+      <!-- =========================================================
+           VIEW: MERCHANT OFFERS (#offers)
+           ========================================================= -->
+      <div id="view-offers" class="page-view hidden">
+        <div id="offers-view-container">
+          <!-- Rendered by OffersSection.js -->
+        </div>
+      </div>
+
+      <!-- =========================================================
+           VIEW: LOUNGE DIRECTORY (#lounge)
+           ========================================================= -->
+      <div id="view-lounge" class="page-view hidden">
+        <div id="lounge-view-container">
+          <!-- Rendered by LoungeSection.js -->
+        </div>
+      </div>
+
+      <!-- =========================================================
+           VIEW: FINTECH EDUCATION (#learn)
+           ========================================================= -->
+      <div id="view-learn" class="page-view hidden">
+        <div id="learn-view-container">
+          <!-- Rendered by EducationalSection.js -->
+        </div>
+      </div>
+
+      <!-- =========================================================
+           VIEW: SAVED CARDS (#saved)
+           ========================================================= -->
+      <div id="view-saved" class="page-view hidden">
+        <div class="section-container" style="padding: 3rem 2rem;">
+          <div class="section-header-row">
+            <div>
+              <span class="section-tag">YOUR BOOKMARKS</span>
+              <h1 class="section-heading">Saved Payment Cards</h1>
+              <p class="section-subheading-text">Cards you have bookmarked for future reference.</p>
+            </div>
+            <button class="btn btn-outline btn-sm" id="btn-clear-saved-cards">Clear All Saved</button>
+          </div>
+          <div class="card-grid" id="saved-cards-grid" style="margin-top: 2rem;"></div>
+        </div>
+      </div>
+
+    </main>
+
+    <!-- Global Footer -->
+    <footer class="app-footer" role="contentinfo">
+      <div class="footer-inner">
+        
+        <div class="footer-top-grid">
+          
+          <div class="footer-brand-info">
+            <div class="brand-link">
+              <div class="brand-emblem">CS</div>
+              <span class="brand-title">CardSphere <span>India</span></span>
+            </div>
+            <p class="footer-desc">
+              India's comprehensive payment-card discovery and comparison platform. Discover. Compare. Choose.
+            </p>
+            <div class="footer-legal-badge">
+              Independent • Unbiased • User-First
+            </div>
+          </div>
+
+          <div class="footer-col">
+            <h4 class="footer-col-title">Ecosystem</h4>
+            <ul class="footer-links-list">
+              <li><a href="#cards">All Payment Cards</a></li>
+              <li><a href="#compare">Compare Cards</a></li>
+              <li><a href="#find-my-card">Card Match Quiz</a></li>
+              <li><a href="#calculator">Rewards Calculator</a></li>
+              <li><a href="#offers">Active Partner Offers</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-col">
+            <h4 class="footer-col-title">By Category</h4>
+            <ul class="footer-links-list">
+              <li><a href="#cards">RuPay UPI Cards</a></li>
+              <li><a href="#cards">Cashback Credit Cards</a></li>
+              <li><a href="#cards">Lifetime Free Cards</a></li>
+              <li><a href="#cards">Zero Forex Travel Cards</a></li>
+              <li><a href="#cards">Secured FD Cards</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-col">
+            <h4 class="footer-col-title">Financial Knowledge</h4>
+            <ul class="footer-links-list">
+              <li><a href="#learn">RuPay on UPI Guide</a></li>
+              <li><a href="#lounge">Airport Lounge Rules 2026</a></li>
+              <li><a href="#learn">Mastering CIBIL Score</a></li>
+              <li><a href="#learn">Secured vs Unsecured</a></li>
+              <li><a href="#learn">Credit vs Debit Cards</a></li>
+            </ul>
+          </div>
+
+        </div>
+
+        <!-- Compliance & Regulatory Disclaimers -->
+        <div class="footer-disclaimer-card">
+          <p><strong>Regulatory & Financial Disclaimer:</strong> CardSphere India is an informational, educational, and discovery platform. We do NOT provide credit facilities, financial advisory, loan agreements, or guarantee card approvals. Fees, reward point valuations, lounge access criteria, and merchant discounts are subject to change at the sole discretion of issuing financial institutions. Always verify current terms and schedules of charges directly with the card issuer before applying.</p>
+        </div>
+
+        <div class="footer-bottom-row">
+          <span>&copy; 2026 CardSphere India. All rights reserved.</span>
+          <span>Data verified against official public banking disclosures.</span>
+        </div>
+
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- Entry Script -->
+  <script type="module" src="./main.js"></script>
+</body>
+</html>

@@ -1,0 +1,211 @@
+/**
+ * CardSphere India - Issuer Banks and Financial Institutions
+ */
+
+export const BANKS = [
+  {
+    id: 'hdfc',
+    name: 'HDFC Bank',
+    shortName: 'HDFC',
+    category: 'Private',
+    color: '#004c8f',
+    textColor: '#ffffff',
+    established: 1994,
+    website: 'https://www.hdfcbank.com',
+    popularSegments: ['Premium', 'Super Premium', 'Co-branded', 'Cashback'],
+    upiSupport: true
+  },
+  {
+    id: 'icici',
+    name: 'ICICI Bank',
+    shortName: 'ICICI',
+    category: 'Private',
+    color: '#bd2428',
+    textColor: '#ffffff',
+    established: 1994,
+    website: 'https://www.icicibank.com',
+    popularSegments: ['Cashback', 'Shopping', 'Lifestyle', 'Debit'],
+    upiSupport: true
+  },
+  {
+    id: 'axis',
+    name: 'Axis Bank',
+    shortName: 'Axis',
+    category: 'Private',
+    color: '#97144d',
+    textColor: '#ffffff',
+    established: 1993,
+    website: 'https://www.axisbank.com',
+    popularSegments: ['Travel', 'Cashback', 'Dining', 'Rewards'],
+    upiSupport: true
+  },
+  {
+    id: 'sbi',
+    name: 'State Bank of India',
+    shortName: 'SBI Card',
+    category: 'Public Sector',
+    color: '#22559c',
+    textColor: '#ffffff',
+    established: 1998,
+    website: 'https://www.sbicard.com',
+    popularSegments: ['Cashback', 'Fuel', 'Entry-level', 'Super Premium'],
+    upiSupport: true
+  },
+  {
+    id: 'kotak',
+    name: 'Kotak Mahindra Bank',
+    shortName: 'Kotak',
+    category: 'Private',
+    color: '#da251d',
+    textColor: '#ffffff',
+    established: 2003,
+    website: 'https://www.kotak.com',
+    popularSegments: ['Rewards', 'Entertainment', 'Shopping'],
+    upiSupport: true
+  },
+  {
+    id: 'idfc',
+    name: 'IDFC FIRST Bank',
+    shortName: 'IDFC FIRST',
+    category: 'Private',
+    color: '#9b1b1f',
+    textColor: '#ffffff',
+    established: 2015,
+    website: 'https://www.idfcfirstbank.com',
+    popularSegments: ['Lifetime Free', 'Low Interest', 'Secured FD-backed', 'Lounge'],
+    upiSupport: true
+  },
+  {
+    id: 'amex',
+    name: 'American Express India',
+    shortName: 'Amex',
+    category: 'Foreign',
+    color: '#006fcf',
+    textColor: '#ffffff',
+    established: 1921,
+    website: 'https://www.americanexpress.com/in',
+    popularSegments: ['Super Premium', 'Travel', 'Rewards Concierge'],
+    upiSupport: false
+  },
+  {
+    id: 'federal',
+    name: 'Federal Bank',
+    shortName: 'Federal',
+    category: 'Private',
+    color: '#0a3875',
+    textColor: '#ffffff',
+    established: 1931,
+    website: 'https://www.federalbank.co.in',
+    popularSegments: ['Zero Forex', 'Fintech Co-branded', 'Travel'],
+    upiSupport: true
+  },
+  {
+    id: 'indusind',
+    name: 'IndusInd Bank',
+    shortName: 'IndusInd',
+    category: 'Private',
+    color: '#861b2d',
+    textColor: '#ffffff',
+    established: 1994,
+    website: 'https://www.indusind.com',
+    popularSegments: ['Dining', 'Entertainment', 'Golf & Lounge'],
+    upiSupport: true
+  },
+  {
+    id: 'bob',
+    name: 'Bank of Baroda',
+    shortName: 'BoB Financial',
+    category: 'Public Sector',
+    color: '#f26522',
+    textColor: '#ffffff',
+    established: 1908,
+    website: 'https://www.bobfinancial.com',
+    popularSegments: ['RuPay UPI', 'Rewards', 'Affordable Premium'],
+    upiSupport: true
+  },
+  {
+    id: 'pnb',
+    name: 'Punjab National Bank',
+    shortName: 'PNB',
+    category: 'Public Sector',
+    color: '#a20f27',
+    textColor: '#ffffff',
+    established: 1894,
+    website: 'https://www.pnbindia.in',
+    popularSegments: ['RuPay Select', 'Defence/Rakshak', 'Low Fee'],
+    upiSupport: true
+  },
+  {
+    id: 'au',
+    name: 'AU Small Finance Bank',
+    shortName: 'AU Bank',
+    category: 'Small Finance Bank',
+    color: '#461463',
+    textColor: '#ffffff',
+    established: 2017,
+    website: 'https://www.aubank.in',
+    popularSegments: ['Customizable LIT', 'Super Premium Zenith+', 'Travel'],
+    upiSupport: true
+  },
+  {
+    id: 'hsbc',
+    name: 'HSBC India',
+    shortName: 'HSBC',
+    category: 'Foreign',
+    color: '#db0011',
+    textColor: '#ffffff',
+    established: 1853,
+    website: 'https://www.hsbc.co.in',
+    popularSegments: ['Dining & Grocery Cashback', 'Global Travel'],
+    upiSupport: false
+  },
+  {
+    id: 'rbl',
+    name: 'RBL Bank',
+    shortName: 'RBL',
+    category: 'Private',
+    color: '#1a3c75',
+    textColor: '#ffffff',
+    established: 1943,
+    website: 'https://www.rblbank.com',
+    popularSegments: ['Movie Perks', 'Co-branded', 'SuperCard'],
+    upiSupport: true
+  },
+  {
+    id: 'sc',
+    name: 'Standard Chartered Bank',
+    shortName: 'Standard Chartered',
+    category: 'Foreign',
+    color: '#008542',
+    textColor: '#ffffff',
+    established: 1858,
+    website: 'https://www.sc.com/in',
+    popularSegments: ['Rewards', 'Cashback', 'Travel', 'Super Value'],
+    upiSupport: false
+  },
+  {
+    id: 'yes',
+    name: 'Yes Bank',
+    shortName: 'Yes Bank',
+    category: 'Private',
+    color: '#0b3c60',
+    textColor: '#ffffff',
+    established: 2004,
+    website: 'https://www.yesbank.in',
+    popularSegments: ['Rewards', 'Super-premium', 'Customizable BYOC', 'Lounge'],
+    upiSupport: true
+  },
+  {
+    id: 'onecard',
+    name: 'OneCard (FPL Technologies)',
+    shortName: 'OneCard',
+    category: 'Fintech Partner',
+    note: 'Issued in partnership with BoB / Federal / SBM / South Indian Bank / CSB Bank',
+    color: '#000000',
+    textColor: '#ffd700',
+    established: 2019,
+    website: 'https://www.getonecard.app',
+    popularSegments: ['Metal Card', 'Mobile First', 'FD-backed Secured'],
+    upiSupport: false
+  }
+];
